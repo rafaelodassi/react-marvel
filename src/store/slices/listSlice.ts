@@ -2,17 +2,18 @@ import { createSlice } from '@reduxjs/toolkit';
 import { charactersThunk } from '../../services/characters';
 import { FetchStatus } from '../types/fetchStatus';
 import { ErrorData } from '../types/errorData';
+import { CharactersRes } from '../types/dataCharacters';
 
-export interface InterestsNegotiationSlice {
+export interface ListSlice {
   fetchStatus: FetchStatus;
-  errorData: ErrorData;
-  authSuccess: boolean;
+  errorData: ErrorData | null;
+  dataCharacters: CharactersRes['data'] | null;
 }
 
-const initialState: InterestsNegotiationSlice = {
+const initialState: ListSlice = {
   fetchStatus: 'idle',
-  errorData: {} as ErrorData,
-  authSuccess: false,
+  errorData: null,
+  dataCharacters: null,
 };
 
 export const listSlice = createSlice({
@@ -26,7 +27,7 @@ export const listSlice = createSlice({
       })
       .addCase(charactersThunk.fulfilled, (state, action) => {
         state.fetchStatus = 'succeeded';
-        state.authSuccess = true;
+        state.dataCharacters = action.payload;
       })
       .addCase(charactersThunk.rejected, (state, action) => {
         state.fetchStatus = 'failed';

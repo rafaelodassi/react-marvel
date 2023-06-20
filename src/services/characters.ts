@@ -1,16 +1,16 @@
 import { AxiosResponse } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CharactersRes } from './config/interfaces';
+import { CharactersRes } from '../store/types/dataCharacters';
 import apiService from './config';
 
 export const charactersThunk = createAsyncThunk(
-  'interests',
+  'characters',
   async ({ name = '' }: { name: string }, { rejectWithValue }) => {
     try {
-      const response = await apiService.get<CharactersRes>(
+      const response = await apiService.get<CharactersRes['data']>(
         `v1/public/characters?nameStartsWith=${name}`
       );
-      return response;
+      return response.data;
     } catch (err) {
       const error = err as AxiosResponse;
 
