@@ -1,16 +1,28 @@
 'use client';
 
-import { useAppSelector } from '../store/hooks';
-import Search from '../components/Search';
+import React, { useEffect } from 'react';
+
+import { useAppDispatch } from '../store/hooks';
+import { charactersThunk } from '../services/characters';
+
+import Preview from '../components/Preview';
+import List from '../components/List';
+
+import * as Styled from './styles';
 
 const Home = () => {
-  const fetchStatus = useAppSelector((state) => state.list.fetchStatus);
-  const errorData = useAppSelector((state) => state.list.errorData);
-  const dataCharacters = useAppSelector((state) => state.list.dataCharacters);
+  const dispatch = useAppDispatch();
 
-  console.log(fetchStatus, errorData, dataCharacters);
+  useEffect(() => {
+    dispatch(charactersThunk({ name: '' }));
+  }, [dispatch]);
 
-  return <Search />;
+  return (
+    <Styled.Container>
+      <Preview />
+      <List />
+    </Styled.Container>
+  );
 };
 
 export default Home;

@@ -4,10 +4,10 @@ import {
   PreloadedState,
 } from '@reduxjs/toolkit';
 
-import listReducer from './slices/listSlice';
+import charactersReducer from './slices/charactersSlice';
 
 const rootReducer = combineReducers({
-  list: listReducer,
+  characters: charactersReducer,
 });
 
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
