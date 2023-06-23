@@ -1,14 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Masonry from 'react-masonry-css';
 
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { charactersThunk } from '../../services/characters';
 
 import * as Styled from './styles';
 
 const List = () => {
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const fetchStatus = useAppSelector((state) => state.characters.fetchStatus);
@@ -17,9 +19,13 @@ const List = () => {
     (state) => state.characters.dataCharacters
   );
 
-  const openCharacter = (id: string) => {
+  const openCharacter = (id: number) => {
     router.push(`/character/${id}`);
   };
+
+  useEffect(() => {
+    dispatch(charactersThunk({ name: '' }));
+  }, [dispatch]);
 
   return (
     <Styled.Container>

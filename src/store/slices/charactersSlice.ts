@@ -30,6 +30,9 @@ export const charactersSlice = createSlice({
     setValueSearch(state, action: PayloadAction<{ value: string }>) {
       state.valueSearch = action.payload.value;
     },
+    clearCharacterSelected(state) {
+      state.characterSelected = null;
+    },
   },
   extraReducers(builder) {
     builder
@@ -64,4 +67,5 @@ export const charactersSlice = createSlice({
 });
 
 export default charactersSlice.reducer;
-export const { setValueSearch } = charactersSlice.actions;
+export const { setValueSearch, clearCharacterSelected } =
+  charactersSlice.actions;

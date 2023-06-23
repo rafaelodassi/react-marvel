@@ -33,7 +33,6 @@ export const Input = styled.input`
   padding: 24px 50px;
   outline: none;
   font-size: 16px;
-  font-weight: 400;
   font-family: inherit;
   color: rgb(38, 38, 38);
   background: #fff;
