@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
@@ -19,7 +19,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Card = styled.div`
+export const Card = styled.div<{ type: 'characters' | 'comics' }>`
   position: relative;
   border-radius: 12px;
   color: #fff;
@@ -29,27 +29,32 @@ export const Card = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
 
-  &:after {
-    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 4px solid #fff;
-    border-radius: 12px;
-    opacity: 0;
-    box-sizing: border-box;
-  }
+  ${({ type }) =>
+    type === 'characters' &&
+    css`
+      cursor: pointer;
 
-  &:hover {
-    &:after {
-      opacity: 1;
-    }
-  }
+      &:after {
+        transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 4px solid #fff;
+        border-radius: 12px;
+        opacity: 0;
+        box-sizing: border-box;
+      }
+
+      &:hover {
+        &:after {
+          opacity: 1;
+        }
+      }
+    `}
 `;
 
 export const Thumbnail = styled.div<{ thumbnail: string }>`

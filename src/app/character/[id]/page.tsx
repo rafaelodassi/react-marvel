@@ -4,9 +4,13 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { charactersByIdThunk } from '../../../services/characters';
+import {
+  charactersByIdThunk,
+  comicsByCharactersThunk,
+} from '../../../services/characters';
 import { clearCharacterSelected } from '../../../store/slices/charactersSlice';
 import Logo from '../../../../public/img/logo.png';
+import List from '../../../components/List';
 
 import * as Styled from './styles';
 
@@ -18,16 +22,21 @@ const Character = ({ params }: { params: { id: string } }) => {
     (state) => state.characters.characterSelected
   );
 
+  const comics = useAppSelector((state) => state.characters.comics);
+
   const thumbnail = `${characterSelected?.thumbnail.path}.${characterSelected?.thumbnail.extension}`;
 
   useEffect(() => {
     dispatch(charactersByIdThunk({ id: params.id }));
+    dispatch(comicsByCharactersThunk({ id: params.id }));
   }, [dispatch, params.id]);
 
   const back = () => {
     dispatch(clearCharacterSelected());
     router.back();
   };
+
+  console.log(comics);
 
   return (
     <Styled.Container>
@@ -46,6 +55,7 @@ const Character = ({ params }: { params: { id: string } }) => {
           </Styled.ButtonBack>
         </Styled.ContainerButton>
       </Styled.ContainerInfo>
+      <List list={comics} type='comics' />
     </Styled.Container>
   );
 };

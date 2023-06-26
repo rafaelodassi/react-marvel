@@ -1,7 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { charactersThunk } from '../services/characters';
 import Logo from '../../public/img/logo.png';
 import Search from '../components/Search';
 import List from '../components/List';
@@ -9,6 +11,16 @@ import List from '../components/List';
 import * as Styled from './styles';
 
 const Home = () => {
+  const dispatch = useAppDispatch();
+
+  const fetchStatus = useAppSelector((state) => state.characters.fetchStatus);
+  const errorData = useAppSelector((state) => state.characters.errorData);
+  const characters = useAppSelector((state) => state.characters.characters);
+
+  useEffect(() => {
+    dispatch(charactersThunk({ name: '' }));
+  }, [dispatch]);
+
   return (
     <Styled.Container>
       <Styled.ContainerInfo>
@@ -24,7 +36,7 @@ const Home = () => {
         </Styled.Description>
         <Search />
       </Styled.ContainerInfo>
-      <List />
+      <List list={characters} type='characters' />
     </Styled.Container>
   );
 };

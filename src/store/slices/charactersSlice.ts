@@ -2,25 +2,28 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   charactersThunk,
   charactersByIdThunk,
+  comicsByCharactersThunk,
 } from '../../services/characters';
 import { FetchStatus } from '../types/fetchStatus';
 import { ErrorData } from '../types/errorData';
-import { CharactersRes, Character } from '../types/dataCharacters';
+import { CharactersRes, Character, ComicsRes } from '../types/characters';
 
 export interface CharactersSlice {
   fetchStatus: FetchStatus;
   errorData: ErrorData | null;
-  dataCharacters: CharactersRes['data'] | null;
+  characters: CharactersRes['data'] | null;
   valueSearch: string;
   characterSelected: Character | null;
+  comics: ComicsRes['data'] | null;
 }
 
 const initialState: CharactersSlice = {
   fetchStatus: 'idle',
   errorData: null,
-  dataCharacters: null,
+  characters: null,
   valueSearch: '',
   characterSelected: null,
+  comics: null,
 };
 
 export const charactersSlice = createSlice({
@@ -41,7 +44,7 @@ export const charactersSlice = createSlice({
       })
       .addCase(charactersThunk.fulfilled, (state, action) => {
         state.fetchStatus = 'succeeded';
-        state.dataCharacters = action.payload;
+        state.characters = action.payload;
       })
       .addCase(charactersThunk.rejected, (state, action) => {
         state.fetchStatus = 'failed';
@@ -60,6 +63,17 @@ export const charactersSlice = createSlice({
             : ({} as Character);
       })
       .addCase(charactersByIdThunk.rejected, (state, action) => {
+        state.fetchStatus = 'failed';
+        state.errorData = action.payload as ErrorData;
+      })
+      .addCase(comicsByCharactersThunk.pending, (state) => {
+        state.fetchStatus = 'loading';
+      })
+      .addCase(comicsByCharactersThunk.fulfilled, (state, action) => {
+        state.fetchStatus = 'succeeded';
+        state.comics = action.payload;
+      })
+      .addCase(comicsByCharactersThunk.rejected, (state, action) => {
         state.fetchStatus = 'failed';
         state.errorData = action.payload as ErrorData;
       });

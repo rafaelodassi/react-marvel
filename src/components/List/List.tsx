@@ -1,55 +1,69 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import Masonry from 'react-masonry-css';
 
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { charactersThunk } from '../../services/characters';
+import {
+  CharactersRes,
+  ComicsRes,
+  Character,
+  Comics,
+} from '../../store/types/characters';
 
 import * as Styled from './styles';
 
-const List = () => {
-  const dispatch = useAppDispatch();
+interface ListProps {
+  list: (CharactersRes['data'] | ComicsRes['data']) | null;
+  type: 'characters' | 'comics';
+}
+
+const List = ({ list, type }: ListProps) => {
   const router = useRouter();
 
-  const fetchStatus = useAppSelector((state) => state.characters.fetchStatus);
-  const errorData = useAppSelector((state) => state.characters.errorData);
-  const dataCharacters = useAppSelector(
-    (state) => state.characters.dataCharacters
-  );
-
   const openCharacter = (id: number) => {
-    router.push(`/character/${id}`);
+    if (type === 'characters') {
+      router.push(`/character/${id}`);
+    }
   };
 
-  useEffect(() => {
-    dispatch(charactersThunk({ name: '' }));
-  }, [dispatch]);
+  const getName = (l: Character | Comics) => {
+    if (type === 'characters') {
+      return (l as Character).name;
+    }
+
+    return (l as Comics).title;
+  };
 
   return (
     <Styled.Container>
-      <Masonry
-        breakpointCols={{
-          default: 6,
-          1400: 5,
-          1200: 4,
-          1000: 3,
-          750: 2,
-          600: 1,
-        }}
-        className='masonry-grid'
-        columnClassName='masonry-grid-column'
-      >
-        {dataCharacters?.results.map((r) => (
-          <Styled.Card key={r.id} onClick={() => openCharacter(r.id)}>
-            <Styled.Thumbnail
-              thumbnail={`${r.thumbnail.path}.${r.thumbnail.extension}`}
-            />
-            <Styled.Name>{r.name}</Styled.Name>
-          </Styled.Card>
-        ))}
-      </Masonry>
+      {list?.results && (
+        <Masonry
+          breakpointCols={{
+            default: 6,
+            1400: 5,
+            1200: 4,
+            1000: 3,
+            750: 2,
+            600: 1,
+          }}
+          className='masonry-grid'
+          columnClassName='masonry-grid-column'
+        >
+          {list.results.map((l) => (
+            <Styled.Card
+              key={l.id}
+              onClick={() => openCharacter(l.id)}
+              type={type}
+            >
+              <Styled.Thumbnail
+                thumbnail={`${l.thumbnail.path}.${l.thumbnail.extension}`}
+              />
+              <Styled.Name>{getName(l)}</Styled.Name>
+            </Styled.Card>
+          ))}
+        </Masonry>
+      )}
     </Styled.Container>
   );
 };
