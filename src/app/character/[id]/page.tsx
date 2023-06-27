@@ -37,7 +37,13 @@ const Character = ({ params }: { params: { id: string } }) => {
 
   const comics = useAppSelector((state) => state.characters.comics);
 
-  const thumbnail = `${characterSelected?.thumbnail.path}.${characterSelected?.thumbnail.extension}`;
+  const thumbnail = () => {
+    if (!characterSelected) {
+      return '';
+    }
+
+    return `${characterSelected?.thumbnail.path}.${characterSelected?.thumbnail.extension}`;
+  };
 
   useEffect(() => {
     dispatch(charactersByIdThunk({ id: params.id }));
@@ -57,7 +63,7 @@ const Character = ({ params }: { params: { id: string } }) => {
 
   return (
     <Styled.Container>
-      <Styled.ContainerInfo thumbnail={thumbnail}>
+      <Styled.ContainerInfo thumbnail={thumbnail()}>
         <Styled.Logo src={Logo} width={100} alt='Marvel' />
         {fetchStatusCharacters === 'loading' ? (
           <Skeleton width={'300px'} heigth={'20px'} />

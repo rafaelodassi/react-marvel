@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { FiArrowLeft, FiBook } from 'react-icons/fi';
 
+import { MEDIAS_QUERY } from '../../../constants';
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -26,6 +28,10 @@ export const ContainerInfo = styled.div<{ thumbnail: string }>`
     url(${({ thumbnail }) => thumbnail});
   background-size: cover;
   background-position: center center;
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    padding: 0 30px;
+  }
 `;
 
 export const Logo = styled(Image)``;
@@ -64,6 +70,10 @@ export const ButtonBack = styled.button`
     cursor: pointer;
     opacity: 0.7;
   }
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    width: 100%;
+  }
 `;
 
 export const IconBack = styled(FiArrowLeft)`
@@ -78,10 +88,15 @@ export const TitleComics = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    padding: 0 30px;
+  }
 `;
 
 export const IconComics = styled(FiBook)`
   color: #fff;
+  flex-shrink: 0;
 `;
 
 export const ContainerError = styled.div`

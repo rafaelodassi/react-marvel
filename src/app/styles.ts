@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 
+import { MEDIAS_QUERY } from '../constants';
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -24,12 +26,20 @@ export const ContainerInfo = styled.div`
     linear-gradient(270deg, transparent 30%, #000 80%), url('/img/bg3.jpg');
   background-size: cover;
   background-position: center center;
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    padding: 30px 30px 0px 30px;
+  }
 `;
 
 export const ContainerError = styled.div`
   width: 100%;
   padding: 0 100px;
   font-weight: 700;
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    padding: 0 30px;
+  }
 `;
 
 export const Logo = styled(Image)``;
@@ -62,5 +72,14 @@ export const Footer = styled.footer`
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    margin-top: 0;
+    height: 60px;
+    gap: 5px;
+    padding: 0 30px;
+    flex-direction: column;
+    justify-content: center;
   }
 `;

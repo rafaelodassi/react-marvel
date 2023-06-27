@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { MEDIAS_QUERY } from '../../constants';
+
 export const Container = styled.div`
   width: 100%;
   padding: 0 100px;
@@ -16,6 +18,10 @@ export const Container = styled.div`
 
   .masonry-grid-column > div {
     margin-bottom: 30px;
+  }
+
+  ${MEDIAS_QUERY.maxMdMin} {
+    padding: 0 30px;
   }
 `;
 
