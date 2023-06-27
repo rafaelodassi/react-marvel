@@ -24,8 +24,10 @@ const Search = () => {
   const debouncedChange = useMemo(() => debounce(onSearch, 300), [onSearch]);
 
   const onClear = () => {
-    dispatch(charactersThunk({ name: '' }));
-    dispatch(setValueSearch({ value: '' }));
+    if (valueSearch) {
+      dispatch(charactersThunk({ name: '' }));
+      dispatch(setValueSearch({ value: '' }));
+    }
   };
 
   useEffect(() => {

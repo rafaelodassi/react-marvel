@@ -27,7 +27,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(charactersThunk({ name: valueSearch }));
-  }, [dispatch, valueSearch]);
+  }, [dispatch]);
 
   const containError = () => {
     return (
