@@ -26,6 +26,12 @@ export const ContainerInfo = styled.div`
   background-position: center center;
 `;
 
+export const ContainerError = styled.div`
+  width: 100%;
+  padding: 0 100px;
+  font-weight: 700;
+`;
+
 export const Logo = styled(Image)``;
 
 export const Name = styled.div`

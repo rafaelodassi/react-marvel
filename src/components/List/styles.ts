@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import ContentLoader from 'react-content-loader';
 
 export const Container = styled.div`
   width: 100%;
@@ -17,6 +18,15 @@ export const Container = styled.div`
   .masonry-grid-column > div {
     margin-bottom: 30px;
   }
+`;
+
+export const ContainerSkeleton = styled.div`
+  height: 230px;
+`;
+
+export const Skeleton = styled(ContentLoader)`
+  width: '100%';
+  height: '100%';
 `;
 
 export const Card = styled.div<{ type: 'characters' | 'comics' }>`

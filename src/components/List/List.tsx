@@ -10,15 +10,17 @@ import {
   Character,
   Comics,
 } from '../../store/types/characters';
+import { FetchStatus } from '../../store/types/fetchStatus';
 
 import * as Styled from './styles';
 
 interface ListProps {
-  list: (CharactersRes['data'] | ComicsRes['data']) | null;
+  data: (CharactersRes['data'] | ComicsRes['data']) | null;
+  fetchStatus: FetchStatus;
   type: 'characters' | 'comics';
 }
 
-const List = ({ list, type }: ListProps) => {
+const List = ({ data, fetchStatus, type }: ListProps) => {
   const router = useRouter();
 
   const openCharacter = (id: number) => {
@@ -37,33 +39,53 @@ const List = ({ list, type }: ListProps) => {
 
   return (
     <Styled.Container>
-      {list?.results && (
-        <Masonry
-          breakpointCols={{
-            default: 6,
-            1400: 5,
-            1200: 4,
-            1000: 3,
-            750: 2,
-            600: 1,
-          }}
-          className='masonry-grid'
-          columnClassName='masonry-grid-column'
-        >
-          {list.results.map((l) => (
-            <Styled.Card
-              key={l.id}
-              onClick={() => openCharacter(l.id)}
-              type={type}
-            >
-              <Styled.Thumbnail
-                thumbnail={`${l.thumbnail.path}.${l.thumbnail.extension}`}
-              />
-              <Styled.Name>{getName(l)}</Styled.Name>
-            </Styled.Card>
-          ))}
-        </Masonry>
-      )}
+      <Masonry
+        breakpointCols={{
+          default: 7,
+          1400: 5,
+          1200: 4,
+          1000: 3,
+          750: 2,
+          600: 1,
+        }}
+        className='masonry-grid'
+        columnClassName='masonry-grid-column'
+      >
+        {fetchStatus === 'loading'
+          ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
+              <Styled.ContainerSkeleton key={d}>
+                <Styled.Skeleton
+                  backgroundColor='#262626'
+                  foregroundColor='#303030'
+                  speed={2}
+                  width={'100%'}
+                  height={'100%'}
+                  viewBox='0 0 100% 100%'
+                >
+                  <rect
+                    x='0'
+                    y='0'
+                    rx='12'
+                    ry='12'
+                    width='100%'
+                    height='100%'
+                  />
+                </Styled.Skeleton>
+              </Styled.ContainerSkeleton>
+            ))
+          : data?.results.map((d) => (
+              <Styled.Card
+                key={d.id}
+                onClick={() => openCharacter(d.id)}
+                type={type}
+              >
+                <Styled.Thumbnail
+                  thumbnail={`${d.thumbnail.path}.${d.thumbnail.extension}`}
+                />
+                <Styled.Name>{getName(d)}</Styled.Name>
+              </Styled.Card>
+            ))}
+      </Masonry>
     </Styled.Container>
   );
 };

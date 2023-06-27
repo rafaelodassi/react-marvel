@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Image from 'next/image';
-import { FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft, FiBook } from 'react-icons/fi';
+import ContentLoader from 'react-content-loader';
 
 export const Container = styled.div`
   display: flex;
@@ -29,6 +30,16 @@ export const ContainerInfo = styled.div<{ thumbnail: string }>`
 `;
 
 export const Logo = styled(Image)``;
+
+export const ContainerSkeleton = styled.div`
+  width: 300px;
+  height: 20px;
+`;
+
+export const Skeleton = styled(ContentLoader)`
+  width: '100%';
+  height: '100%';
+`;
 
 export const Name = styled.div`
   font-size: 30px;
@@ -68,4 +79,24 @@ export const ButtonBack = styled.button`
 
 export const IconBack = styled(FiArrowLeft)`
   color: rgb(38, 38, 38);
+`;
+
+export const TitleComics = styled.div`
+  width: 100%;
+  padding: 0 100px;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const IconComics = styled(FiBook)`
+  color: #fff;
+`;
+
+export const ContainerError = styled.div`
+  width: 100%;
+  padding: 0 100px;
+  font-weight: 700;
 `;

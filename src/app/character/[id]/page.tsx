@@ -18,8 +18,20 @@ const Character = ({ params }: { params: { id: string } }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const fetchStatusCharacters = useAppSelector(
+    (state) => state.characters.fetchStatusCharacters
+  );
+
   const characterSelected = useAppSelector(
     (state) => state.characters.characterSelected
+  );
+
+  const errorDataComics = useAppSelector(
+    (state) => state.characters.errorDataComics
+  );
+
+  const fetchStatusComics = useAppSelector(
+    (state) => state.characters.fetchStatusComics
   );
 
   const comics = useAppSelector((state) => state.characters.comics);
@@ -36,18 +48,45 @@ const Character = ({ params }: { params: { id: string } }) => {
     router.back();
   };
 
-  console.log(comics);
+  const containError = () => {
+    return (
+      (comics && comics.results && !comics.results.length) || errorDataComics
+    );
+  };
+
+  const buildSkeleton = () => {
+    return (
+      <Styled.ContainerSkeleton>
+        <Styled.Skeleton
+          backgroundColor='#262626'
+          foregroundColor='#303030'
+          speed={2}
+          width={'100%'}
+          height={'100%'}
+          viewBox='0 0 100% 100%'
+        >
+          <rect x='0' y='0' rx='12' ry='12' width='100%' height='100%' />
+        </Styled.Skeleton>
+      </Styled.ContainerSkeleton>
+    );
+  };
 
   return (
     <Styled.Container>
       <Styled.ContainerInfo thumbnail={thumbnail}>
         <Styled.Logo src={Logo} width={100} alt='Marvel' />
-        <Styled.Name>{characterSelected?.name}</Styled.Name>
-        {characterSelected?.description && (
-          <Styled.Description>
-            {characterSelected?.description}
-          </Styled.Description>
+        {fetchStatusCharacters === 'loading' ? (
+          buildSkeleton()
+        ) : (
+          <Styled.Name>{characterSelected?.name}</Styled.Name>
         )}
+        {fetchStatusCharacters === 'loading'
+          ? buildSkeleton()
+          : characterSelected?.description && (
+              <Styled.Description>
+                {characterSelected?.description}
+              </Styled.Description>
+            )}
         <Styled.ContainerButton>
           <Styled.ButtonBack onClick={back}>
             <Styled.IconBack size={24} />
@@ -55,7 +94,23 @@ const Character = ({ params }: { params: { id: string } }) => {
           </Styled.ButtonBack>
         </Styled.ContainerButton>
       </Styled.ContainerInfo>
-      <List list={comics} type='comics' />
+      <Styled.TitleComics>
+        {fetchStatusCharacters === 'loading' ? (
+          buildSkeleton()
+        ) : (
+          <>
+            <Styled.IconComics size={24} />
+            Quadrinhos de {characterSelected?.name}
+          </>
+        )}
+      </Styled.TitleComics>
+      {containError() ? (
+        <Styled.ContainerError>
+          Que pena! Não foi possível encontrar nenhum quadrinho :(
+        </Styled.ContainerError>
+      ) : (
+        <List data={comics} fetchStatus={fetchStatusComics} type='comics' />
+      )}
     </Styled.Container>
   );
 };

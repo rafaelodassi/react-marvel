@@ -13,13 +13,28 @@ import * as Styled from './styles';
 const Home = () => {
   const dispatch = useAppDispatch();
 
-  const fetchStatus = useAppSelector((state) => state.characters.fetchStatus);
-  const errorData = useAppSelector((state) => state.characters.errorData);
+  const errorDataCharacters = useAppSelector(
+    (state) => state.characters.errorDataCharacters
+  );
+
+  const fetchStatusCharacters = useAppSelector(
+    (state) => state.characters.fetchStatusCharacters
+  );
+
   const characters = useAppSelector((state) => state.characters.characters);
 
+  const valueSearch = useAppSelector((state) => state.characters.valueSearch);
+
   useEffect(() => {
-    dispatch(charactersThunk({ name: '' }));
-  }, [dispatch]);
+    dispatch(charactersThunk({ name: valueSearch }));
+  }, [dispatch, valueSearch]);
+
+  const containError = () => {
+    return (
+      (characters && characters.results && !characters.results.length) ||
+      errorDataCharacters
+    );
+  };
 
   return (
     <Styled.Container>
@@ -36,7 +51,17 @@ const Home = () => {
         </Styled.Description>
         <Search />
       </Styled.ContainerInfo>
-      <List list={characters} type='characters' />
+      {containError() ? (
+        <Styled.ContainerError>
+          Que pena! Não foi possível encontrar nenhum herói :(
+        </Styled.ContainerError>
+      ) : (
+        <List
+          data={characters}
+          fetchStatus={fetchStatusCharacters}
+          type='characters'
+        />
+      )}
     </Styled.Container>
   );
 };

@@ -9,21 +9,25 @@ import { ErrorData } from '../types/errorData';
 import { CharactersRes, Character, ComicsRes } from '../types/characters';
 
 export interface CharactersSlice {
-  fetchStatus: FetchStatus;
-  errorData: ErrorData | null;
+  fetchStatusCharacters: FetchStatus;
+  errorDataCharacters: ErrorData | null;
   characters: CharactersRes['data'] | null;
+  fetchStatusComics: FetchStatus;
+  errorDataComics: ErrorData | null;
+  comics: ComicsRes['data'] | null;
   valueSearch: string;
   characterSelected: Character | null;
-  comics: ComicsRes['data'] | null;
 }
 
 const initialState: CharactersSlice = {
-  fetchStatus: 'idle',
-  errorData: null,
+  fetchStatusCharacters: 'idle',
+  errorDataCharacters: null,
   characters: null,
+  fetchStatusComics: 'idle',
+  errorDataComics: null,
+  comics: null,
   valueSearch: '',
   characterSelected: null,
-  comics: null,
 };
 
 export const charactersSlice = createSlice({
@@ -40,21 +44,25 @@ export const charactersSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(charactersThunk.pending, (state) => {
-        state.fetchStatus = 'loading';
+        state.fetchStatusCharacters = 'loading';
+        state.errorDataCharacters = null;
+        state.characters = null;
       })
       .addCase(charactersThunk.fulfilled, (state, action) => {
-        state.fetchStatus = 'succeeded';
+        state.fetchStatusCharacters = 'succeeded';
         state.characters = action.payload;
       })
       .addCase(charactersThunk.rejected, (state, action) => {
-        state.fetchStatus = 'failed';
-        state.errorData = action.payload as ErrorData;
+        state.fetchStatusCharacters = 'failed';
+        state.errorDataCharacters = action.payload as ErrorData;
       })
       .addCase(charactersByIdThunk.pending, (state) => {
-        state.fetchStatus = 'loading';
+        state.fetchStatusCharacters = 'loading';
+        state.errorDataCharacters = null;
+        state.characters = null;
       })
       .addCase(charactersByIdThunk.fulfilled, (state, action) => {
-        state.fetchStatus = 'succeeded';
+        state.fetchStatusCharacters = 'succeeded';
         state.characterSelected =
           action.payload.results &&
           Array.isArray(action.payload.results) &&
@@ -63,19 +71,21 @@ export const charactersSlice = createSlice({
             : ({} as Character);
       })
       .addCase(charactersByIdThunk.rejected, (state, action) => {
-        state.fetchStatus = 'failed';
-        state.errorData = action.payload as ErrorData;
+        state.fetchStatusCharacters = 'failed';
+        state.errorDataCharacters = action.payload as ErrorData;
       })
       .addCase(comicsByCharactersThunk.pending, (state) => {
-        state.fetchStatus = 'loading';
+        state.fetchStatusComics = 'loading';
+        state.errorDataComics = null;
+        state.comics = null;
       })
       .addCase(comicsByCharactersThunk.fulfilled, (state, action) => {
-        state.fetchStatus = 'succeeded';
+        state.fetchStatusComics = 'succeeded';
         state.comics = action.payload;
       })
       .addCase(comicsByCharactersThunk.rejected, (state, action) => {
-        state.fetchStatus = 'failed';
-        state.errorData = action.payload as ErrorData;
+        state.fetchStatusComics = 'failed';
+        state.errorDataComics = action.payload as ErrorData;
       });
   },
 });
