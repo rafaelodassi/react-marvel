@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Image from 'next/image';
 import { FiArrowLeft, FiBook } from 'react-icons/fi';
-import ContentLoader from 'react-content-loader';
 
 export const Container = styled.div`
   display: flex;
@@ -30,16 +29,6 @@ export const ContainerInfo = styled.div<{ thumbnail: string }>`
 `;
 
 export const Logo = styled(Image)``;
-
-export const ContainerSkeleton = styled.div`
-  width: 300px;
-  height: 20px;
-`;
-
-export const Skeleton = styled(ContentLoader)`
-  width: '100%';
-  height: '100%';
-`;
 
 export const Name = styled.div`
   font-size: 30px;

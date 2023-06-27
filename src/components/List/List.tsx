@@ -11,6 +11,7 @@ import {
   Comics,
 } from '../../store/types/characters';
 import { FetchStatus } from '../../store/types/fetchStatus';
+import Skeleton from '../../components/Skeleton';
 
 import * as Styled from './styles';
 
@@ -53,25 +54,7 @@ const List = ({ data, fetchStatus, type }: ListProps) => {
       >
         {fetchStatus === 'loading'
           ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => (
-              <Styled.ContainerSkeleton key={d}>
-                <Styled.Skeleton
-                  backgroundColor='#262626'
-                  foregroundColor='#303030'
-                  speed={2}
-                  width={'100%'}
-                  height={'100%'}
-                  viewBox='0 0 100% 100%'
-                >
-                  <rect
-                    x='0'
-                    y='0'
-                    rx='12'
-                    ry='12'
-                    width='100%'
-                    height='100%'
-                  />
-                </Styled.Skeleton>
-              </Styled.ContainerSkeleton>
+              <Skeleton key={d} heigth={'230px'} />
             ))
           : data?.results.map((d) => (
               <Styled.Card

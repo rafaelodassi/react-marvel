@@ -11,6 +11,7 @@ import {
 import { clearCharacterSelected } from '../../../store/slices/charactersSlice';
 import Logo from '../../../../public/img/logo.png';
 import List from '../../../components/List';
+import Skeleton from '../../../components/Skeleton';
 
 import * as Styled from './styles';
 
@@ -54,39 +55,24 @@ const Character = ({ params }: { params: { id: string } }) => {
     );
   };
 
-  const buildSkeleton = () => {
-    return (
-      <Styled.ContainerSkeleton>
-        <Styled.Skeleton
-          backgroundColor='#262626'
-          foregroundColor='#303030'
-          speed={2}
-          width={'100%'}
-          height={'100%'}
-          viewBox='0 0 100% 100%'
-        >
-          <rect x='0' y='0' rx='12' ry='12' width='100%' height='100%' />
-        </Styled.Skeleton>
-      </Styled.ContainerSkeleton>
-    );
-  };
-
   return (
     <Styled.Container>
       <Styled.ContainerInfo thumbnail={thumbnail}>
         <Styled.Logo src={Logo} width={100} alt='Marvel' />
         {fetchStatusCharacters === 'loading' ? (
-          buildSkeleton()
+          <Skeleton width={'300px'} heigth={'20px'} />
         ) : (
           <Styled.Name>{characterSelected?.name}</Styled.Name>
         )}
-        {fetchStatusCharacters === 'loading'
-          ? buildSkeleton()
-          : characterSelected?.description && (
-              <Styled.Description>
-                {characterSelected?.description}
-              </Styled.Description>
-            )}
+        {fetchStatusCharacters === 'loading' ? (
+          <Skeleton heigth={'20px'} />
+        ) : (
+          characterSelected?.description && (
+            <Styled.Description>
+              {characterSelected?.description}
+            </Styled.Description>
+          )
+        )}
         <Styled.ContainerButton>
           <Styled.ButtonBack onClick={back}>
             <Styled.IconBack size={24} />
@@ -96,7 +82,7 @@ const Character = ({ params }: { params: { id: string } }) => {
       </Styled.ContainerInfo>
       <Styled.TitleComics>
         {fetchStatusCharacters === 'loading' ? (
-          buildSkeleton()
+          <Skeleton width={'300px'} heigth={'20px'} />
         ) : (
           <>
             <Styled.IconComics size={24} />
