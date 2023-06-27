@@ -11,7 +11,11 @@ interface SkeletonProps {
 
 const Skeleton = ({ width, heigth }: SkeletonProps) => {
   return (
-    <Styled.Container width={width} heigth={heigth}>
+    <Styled.Container
+      width={width}
+      heigth={heigth}
+      data-testid='container-skeleton'
+    >
       <Styled.Skeleton
         backgroundColor='#262626'
         foregroundColor='#303030'

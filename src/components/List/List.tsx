@@ -15,7 +15,7 @@ import Skeleton from '../../components/Skeleton';
 
 import * as Styled from './styles';
 
-interface ListProps {
+export interface ListProps {
   data: (CharactersRes['data'] | ComicsRes['data']) | null;
   fetchStatus: FetchStatus;
   type: 'characters' | 'comics';
