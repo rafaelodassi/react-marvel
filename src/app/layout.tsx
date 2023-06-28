@@ -17,13 +17,12 @@ const openSans = Open_Sans({
   style: 'normal',
 });
 
-export const metadata = {
-  title: { default: 'Create Next App' },
-};
-
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang='en'>
+      <head>
+        <title>React Marvel</title>
+      </head>
       <body className={openSans.className}>
         <Provider store={setupStore()}>
           <StyledComponentsRegistry>
