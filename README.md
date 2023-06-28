@@ -2,6 +2,10 @@
 
 O Universo Marvel é o universo compartilhado onde ocorrem as histórias na maioria dos títulos de quadrinhos americanos e outras mídias publicadas pela Marvel Entertainment. Super-equipes, como os Vingadores, os X-Men e outros super-heróis Marvel vivem neste universo, incluindo personagens como Homem-Aranha, Capitão América, Homem de Ferro, Thor, Hulk, Doutor Estranho e muitos outros. Busque e explore seus hérois favoritos e seus quadrinhos!
 
+## 📦 Acesse o projeto
+
+Acesse o projeto hospedado na Vercel: https://react-marvel-bay.vercel.app/
+
 ## 🚀 Começando
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
@@ -56,10 +60,6 @@ Veja a cobertura dos testes
 ```
 yarn test:coverage
 ```
-
-## 📦 Implantação
-
-url do site implantado.
 
 ## 🛠️ Construído com
 
